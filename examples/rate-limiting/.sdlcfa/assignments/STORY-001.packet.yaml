@@ -1,0 +1,41 @@
+assignment_id: "STORY-001-build"
+role: "Build Worker"
+phase: "build"
+objective: "Implement per-key rate limiting middleware for /v1/search per STORY-001."
+inputs:
+  user_request: "Add per-API-key rate limiting to the public /v1/search endpoint."
+  source_artifacts:
+    - ".sdlcfa/stories/STORY-001.md"
+    - ".sdlcfa/design/architecture.md"
+    - ".sdlcfa/design/prd.md"
+  status_snapshot: "STORY-001 ready; G0/G1/G2 passed; human gates resolved (60/60s, fail-open)."
+  constraints:
+    - "Gate behind RATE_LIMIT_ENABLED (default off)"
+    - "Fail-open on Redis outage (INV1)"
+    - "Only /v1/search affected (INV3)"
+    - "Limiter adds < 5 ms p99"
+  human_decisions:
+    - "Internal-key exemption is out of scope; deferred to STORY-002 (product, resolved)"
+scope:
+  read_paths:
+    - "app/"
+    - "tests/"
+  write_paths:
+    - "app/middleware/rate_limit.py"
+    - "app/main.py"
+    - "tests/test_rate_limit.py"
+validation:
+  commands:
+    - "pytest tests/test_rate_limit.py"
+    - "pytest"
+    - "ruff check app tests"
+  required_evidence:
+    - "test output showing the 6 acceptance tests pass"
+output:
+  artifact_path: ".sdlcfa/assignments/STORY-001.result.yaml"
+  response_format: "Worker Result Contract"
+stop_conditions:
+  - "Acceptance criteria conflict"
+  - "Fail-open behavior cannot be implemented without a client-visible error"
+  - "Unrelated user changes overlap the write scope"
+  - "A human decision beyond the resolved gates is required"

@@ -1,0 +1,53 @@
+{
+  "skill_name": "sdlc-fa",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use $sdlc-fa to turn a vague request for an AI coding assistant feature into the next SDLC phase, required artifacts, gates, and a concise discovery brief outline.",
+      "expected_output": "Routes to discovery, identifies missing evidence and human decisions, names durable artifacts, and does not jump straight to implementation.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use $sdlc-fa for a repo that already has a PRD and architecture notes. Create a planning handoff with epics, story readiness checks, write scopes, validation commands, and status ledger fields.",
+      "expected_output": "Routes to planning, produces worker-ready planning artifacts, includes default gates, and separates live status from specs.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use $sdlc-fa to review a completed story that touches agent orchestration and schema migration logic. Describe review layers, finding classifications, validation evidence, and stop conditions.",
+      "expected_output": "Routes to review and validation, requires independent review, treats schema and agent orchestration as high risk, and blocks human decisions instead of patching around them.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Use $sdlc-fa after a sprint where two worker agents shipped changes and one validation failed. Produce the learning output and route follow-up work.",
+      "expected_output": "Routes to learning, captures completed work, failed validation, doc sync, follow-up actions, and next-phase ownership without rewriting historical specs.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Use $sdlc-fa to coordinate three subagents for discovery, planning, and independent review. Specify each worker's prompt, inputs, allowed write scope, output format, and stop conditions.",
+      "expected_output": "Uses explicit sub-agent contracts instead of generic delegation, selects valid roles, provides assignment packets, requires Worker Result Contract outputs, and keeps shared status writes with the orchestrator.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Use $sdlc-fa to resume a project that already has a .sdlcfa/ directory with a status ledger and an older handoff, where the ledger marks a story done but no validation evidence is recorded.",
+      "expected_output": "Runs the resume/audit path: loads .sdlcfa/status.yaml, validates the ledger structurally, reconciles ledger against reality, flags the done-without-evidence story as a finding instead of trusting it, marks superseded handoffs historical, and resumes from the lowest unmet gate rather than chat.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Use $sdlc-fa to release a validated change that deploys a schema migration to production. Describe the release gate and required evidence.",
+      "expected_output": "Routes to the release phase, treats schema migration to production as high risk, requires G7_RELEASE with deploy target, rollback plan, captured human sign-off, and post-release validation, writes a release record under .sdlcfa/releases/, and refuses to infer the production-release approval.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Use $sdlc-fa after a released story triggered a production regression and the rollback flag was flipped. Handle the incident and produce the recovery output.",
+      "expected_output": "Enters the Incident and Rollback loop: contains first via the pre-defined rollback, opens an incident under .sdlcfa/incidents/, sets the story status to rolled-back and updates the ledger, runs a gate-escape analysis naming which gate (G3-G7) missed and the invariant/test/check that closes the gap, routes corrective and preventive follow-ups, and does not mark the story done until the fix re-runs the lifecycle from the owning phase.",
+      "files": []
+    }
+  ]
+}

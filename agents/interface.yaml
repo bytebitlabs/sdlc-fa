@@ -1,0 +1,5 @@
+interface:
+  display_name: "SDLC for AI Agents"
+  short_description: "Govern AI-agent software delivery"
+  default_prompt: "Use $sdlc-fa to run the next lifecycle phase with gates, artifacts, and validation evidence."
+

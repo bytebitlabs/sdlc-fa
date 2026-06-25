@@ -1,0 +1,72 @@
+version: 1
+updated_at: "2026-06-24T18:40:00Z"
+owner: "orchestrator"
+stories:
+  STORY-001:
+    title: "Per-key rate limiting for /v1/search"
+    status: "done"
+    epic: "EPIC-API-RESILIENCE"
+    sprint: "2026-06-B"
+    priority: "P1"
+    dependencies: []
+    blocked_by: []
+    write_scope:
+      - "app/middleware/rate_limit.py"
+      - "app/main.py"
+      - "tests/test_rate_limit.py"
+    validation_commands:
+      - "pytest tests/test_rate_limit.py"
+      - "pytest"
+      - "ruff check app tests"
+    invariants:
+      - "INV1 fail-open on limiter store outage"
+      - "INV2 no block below threshold"
+      - "INV3 only /v1/search affected"
+    gates:
+      G0_PRECHECK:
+        decision: "pass"
+        evidence: "Repo rules + AGENTS.md loaded; clean worktree; invariants known"
+        decided_by: "orchestrator"
+        decided_at: "2026-06-20T09:00:00Z"
+      G1_READY:
+        decision: "pass"
+        evidence: "Human gates (threshold, store-down) resolved in PRD"
+        decided_by: "orchestrator"
+        decided_at: "2026-06-20T16:30:00Z"
+      G2_SCOPE:
+        decision: "pass"
+        evidence: "Write scope = 3 files, disjoint; no parallel worker"
+        decided_by: "orchestrator"
+        decided_at: "2026-06-23T10:00:00Z"
+      G3_DEV_DONE:
+        decision: "pass"
+        evidence: ".sdlcfa/assignments/STORY-001.result.yaml; validate_artifacts result OK"
+        decided_by: "Build Worker"
+        decided_at: "2026-06-23T15:10:00Z"
+      G4_REVIEW:
+        decision: "pass"
+        evidence: ".sdlcfa/reviews/STORY-001.md; patch applied, decision routed, no open decision_needed"
+        decided_by: "Review Auditor"
+        decided_at: "2026-06-23T18:00:00Z"
+      G5_VALIDATE:
+        decision: "pass"
+        evidence: ".sdlcfa/validation/STORY-001.md; full suite + latency NFR pass"
+        decided_by: "Validation Runner"
+        decided_at: "2026-06-24T09:30:00Z"
+      G6_STATUS:
+        decision: "pass"
+        evidence: "Ledger, handoff, evidence updated atomically"
+        decided_by: "orchestrator"
+        decided_at: "2026-06-24T18:40:00Z"
+      G7_RELEASE:
+        decision: "pass"
+        evidence: ".sdlcfa/releases/STORY-001.md; eng-lead sign-off; rollback flag verified; post-release monitors green"
+        decided_by: "human:J.Okafor"
+        decided_at: "2026-06-24T17:00:00Z"
+    audit:
+      commit: "a1b2c3d"
+      completed_at: "2026-06-24T18:40:00Z"
+      validation_artifact: ".sdlcfa/validation/STORY-001.md"
+      last_run_id: "run-2026-06-24-rate-limit"
+      status_reason: "Shipped to 100%; follow-ups STORY-002/003 deferred"
+      blocked_reason: null
