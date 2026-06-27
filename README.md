@@ -1,6 +1,6 @@
 # sdlc-fa — SDLC for AI Agents
 
-An [agent skill](https://github.com/vercel-labs/skills) that acts as a control plane for AI-assisted software delivery. It turns chat-driven work into durable artifacts, explicit gates, bounded write scopes, independent review, and lessons that improve future runs.
+A control plane for AI-assisted software delivery. It turns chat-driven work into durable artifacts, explicit gates, bounded write scopes, independent review, and lessons that improve future runs.
 
 Instead of relying on transcript memory, `sdlc-fa` runs work through a structured lifecycle — discovery, design, planning, scoped build, independent review, validation, release handoff, and learning — and records every phase to disk so any later agent can resume from state rather than chat.
 
@@ -11,15 +11,15 @@ Instead of relying on transcript memory, `sdlc-fa` runs work through a structure
 - **Deterministic gates.** Structural gates are enforced by a validator, not by eye, so the contract and the registry cannot drift.
 - **Human-decision gates stay human.** Product, UX, architecture, legal, safety, data, spend, and production-impact decisions are never resolved by inference.
 
-## Installation
+## Getting started
 
-This is an agent skill following the [Agent Skills specification](https://github.com/vercel-labs/skills). Install it into your project (or globally) with the `skills` CLI:
+Clone or copy this repository into a location your agent can read, then point the agent at [`SKILL.md`](SKILL.md):
 
 ```bash
-npx skills add bytebitlabs/sdlc-fa
+git clone https://github.com/bytebitlabs/sdlc-fa.git
 ```
 
-The skill is agent-agnostic — it works with any agent supported by the `skills` CLI (Claude Code, Codex, Cursor, OpenCode, and others). Once installed, the agent loads [`SKILL.md`](SKILL.md) and invokes it when you ask to create, govern, resume, audit, or improve AI-agent SDLC work.
+`SKILL.md` and its `references/`, `agents/`, and `scripts/` supporting files are the full operating model — keep them together so cross-references and the validator resolve. The agent loads `SKILL.md` and invokes it when you ask to create, govern, resume, audit, or improve AI-agent SDLC work.
 
 ## How it works
 
