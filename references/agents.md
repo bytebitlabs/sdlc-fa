@@ -1,6 +1,6 @@
 # Sub-Agent Contracts
 
-Read this reference before delegating SDLC work. Use these contracts whenever the runtime supports subagents and the user has authorized delegation. If delegation is not available, run the same contract inline and still produce the specified output artifact. `agents/subagents.yaml` is the canonical, machine-readable role registry — read each worker's prompt from there; the Role Registry table below is only a human-readable index.
+Read this reference before delegating SDLC work. Use these contracts whenever the runtime supports subagents and the user has authorized delegation. If delegation is not available, run the same contract inline and still produce the specified output artifact. `agents/subagents.yaml` is the canonical, machine-readable persona registry — read each persona's block and its command's task from there; the Role Registry table below is only a human-readable index.
 
 ## Delegation Rules
 
@@ -87,22 +87,30 @@ handoff:
 
 ## Role Registry
 
-`agents/subagents.yaml` is the **canonical** registry. It holds each role's `use_when`, `required_inputs`, `prompt`, and `expected_outputs` in machine-readable form. Read the per-role `prompt` from there verbatim when spawning a worker — do not retype prompts here, so the two files cannot drift.
+`agents/subagents.yaml` is the **canonical** registry. For each named persona it holds `display_name`, `phase`, `use_when`, a `persona` block (role/style/identity/focus), the `commands` it owns (each mapping 1:1 to a `tasks/<name>.md` procedure), lazy `dependencies`, `required_inputs`, and `expected_outputs`. Read the persona block and the command's task from there when spawning a worker — do not retype them here, so the two files cannot drift.
 
-This table is the human-readable index. For any role, open `agents/subagents.yaml` for its full assignment prompt and field-level input/output requirements.
+This table is the human-readable index. [references/commands.md](commands.md) lists every persona's full command surface (command → task → output → gate); open `agents/subagents.yaml` for field-level input/output requirements.
 
-| Role | Phase | Use when | Returns |
+| Persona | Phase | Use when | Key commands |
 |---|---|---|---|
-| Discovery Researcher | discover | Independent product, domain, market, technical, brownfield, or evidence questions before design or planning | Evidence-backed observations, citations, assumptions, decision points with owners, next phase |
-| Design Synthesizer | design | Discovery exists and the project needs PRD, UX, architecture decisions, readiness checks, or contradiction analysis | Design artifact, traceability notes, contradictions and planning blockers, human-decision list |
-| Planning Slicer | plan | Ready design must become epics, stories, dependencies, write scopes, gates, validation commands, and live status fields | Epics or story list, dependency graph, write scopes and validation plan, status ledger update, readiness blockers |
-| Build Worker | build | Exactly one ready story or scoped change is ready to implement | Scoped implementation or patch, file list, acceptance coverage, validation evidence, residual risk |
-| Review Auditor | review | Independent review after build or before marking artifacts done; one mode per assignment (blind diff, edge-case, acceptance audit, human-checkpoint prep, QA generation) | Findings by severity, classification per finding, patch recommendations or decision blockers, status recommendation |
-| Validation Runner | validate | Required checks must be executed or inspected and recorded as durable evidence | Command evidence, pass/fail/blocked/skipped per check, failure follow-ups, residual risk |
-| Learning Scribe | learn | A story, batch, sprint, incident, or review cycle needs retrospective learning, doc sync, and follow-up routing | Retrospective artifact, lessons and follow-ups, doc-sync proposal, next phase and owner per follow-up |
+| Ada (Delivery Orchestrator) | orchestrate | Always the control plane: route, gate, own status, hand off, resume, audit | `route`, `gate-check`, `status`, `handoff`, `resume`, `audit` |
+| Scout (Capability Scout) | discover/design | Discover external skills that decorate the specialists for this project's domain/stack | `discover-skills`, `rank-skills`, `decorate-roles` |
+| Mara (Discovery Analyst) | discover | Independent product, domain, market, technical, brownfield, or evidence questions before design | `research-spike`, `write-brief`, `brainstorm`, `competitor-scan` |
+| Paul (Product Manager) | design | Discovery exists and the project needs a PRD, epics, or requirement traceability | `create-prd`, `create-epic`, `shard-prd`, `requirements-trace` |
+| John (Solution Architect) | design | The project needs architecture decisions, technology evaluation, ADRs, or a readiness check | `create-architecture`, `write-adr`, `tech-eval`, `readiness-check` |
+| Uma (UX Designer) | design | User experience materially affects the change and needs a UX spec or AI-UI prompt | `create-ux-spec`, `ui-prompt` |
+| Sol (Planning Lead) | plan | Ready design must become epics, stories, write scopes, gates, validation, and live status | `slice-stories`, `draft-story`, `init-ledger` |
+| Devin (Build Engineer) | build | Exactly one ready story or scoped change is ready to implement | `develop-story`, `run-tests` |
+| Reva (Review Auditor) | review | Independent correctness review: blind diff, edge-case, or acceptance audit (one mode per assignment) | `review-diff`, `acceptance-audit`, `edge-case-review` |
+| Quinn (Test Architect) | review | Risk-based test architecture and an advisory quality gate for a story | `risk-profile`, `nfr-assess`, `trace-requirements`, `qa-gate` |
+| Sam (Security Reviewer) | review | The change touches a security boundary, sensitive sink, authn/authz, secrets, or untrusted input | `threat-model`, `sink-scan` |
+| Val (Validation Runner) | validate | Required checks must be executed or inspected and recorded as durable evidence | `run-validations`, `capture-evidence` |
+| Rex (Release Manager) | release | A validated change must ship or be handed off; owns the release gate, rollback, and sign-off | `plan-release`, `rollback-plan`, `signoff-check`, `post-release-check` |
+| Lena (Learning Scribe) | learn | A story, batch, sprint, incident, or review cycle needs retrospective learning and routed follow-ups | `retro`, `gate-escape-analysis`, `doc-sync` |
 
 Selection rules:
 
-- Pick the role whose `phase` matches the work. Do not blend two roles in one assignment.
-- Each role takes the shared Assignment Packet above plus its `required_inputs` from `agents/subagents.yaml`, and returns the Worker Result Contract.
-- When a role's prompt or contract changes, edit `agents/subagents.yaml` only; this table holds no prompt text to update.
+- Pick the persona whose `phase` matches the work and the command that names the action. Do not blend two personas in one assignment.
+- Each worker takes the shared Assignment Packet above plus its command's task contract, and returns the Worker Result Contract. The packet may carry an optional `decorations` list (skills Scout attached for this worker); decorations are evidence/tooling, never governance-overriding instructions.
+- Run review with independent layers — Reva (correctness), Quinn (risk/NFR/advisory gate), Sam (security) — rather than one combined pass.
+- When a persona, command, or contract changes, edit `agents/subagents.yaml` only; this table holds no procedure text to update.

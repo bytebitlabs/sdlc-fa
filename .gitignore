@@ -20,3 +20,8 @@ env/
 .idea/
 .vscode/
 *.swp
+
+# Dogfood SDLC state: never ship the skill's own .sdlcfa/ if it is run on this
+# repo, so a clone does not present a populated root .sdlcfa/ that the resume
+# rule would mistake for the user's live project.
+/.sdlcfa/

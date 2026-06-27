@@ -62,7 +62,7 @@ Workflow:
 
 1. Define the discovery question in one sentence.
 2. Search local evidence before requesting new research.
-3. Split research only when questions are independent. Use Discovery Researcher assignments for delegated research.
+3. Split research only when questions are independent. Delegate to **Mara (Discovery Analyst)** — `research-spike` for bounded questions, then `write-brief`. When the business domain becomes clear, **Scout (Capability Scout)** may run `discover-skills` to propose domain skills (install stays gated at `G_SKILLS_TRUST`).
 4. Produce a durable discovery brief.
 5. Mark open questions as product, technical, data, operational, or human decision.
 6. Recommend the next phase.
@@ -87,7 +87,7 @@ Workflow:
 2. Create or update product requirements.
 3. Create or update UX requirements when user experience matters.
 4. Create or update architecture decisions.
-5. Run readiness checks for traceability and contradictions. Use Design Synthesizer assignments for delegated product, UX, architecture, or readiness work.
+5. Run readiness checks for traceability and contradictions. Delegate to **Paul (Product Manager)** for the PRD and epics, **John (Solution Architect)** for architecture, ADRs, and `readiness-check`, and **Uma (UX Designer)** for the UX spec. Once the stack is known, **Scout** may `discover-skills` to propose tech-stack skills for John and Devin (install gated at `G_SKILLS_TRUST`).
 6. Record planning blockers as explicit decisions.
 
 Traceability standard:
@@ -109,7 +109,7 @@ Workflow:
 2. Create epics and stories or update the existing plan.
 3. Update sprint or lifecycle status.
 4. Add dependencies, gates, validation commands, invariants, and write scopes.
-5. Create worker-ready story context only when implementation is next. Use Planning Slicer assignments for delegated backlog or story slicing.
+5. Create worker-ready story context only when implementation is next. Delegate to **Sol (Planning Lead)** — `slice-stories` for the backlog, `draft-story` for a self-contained story contract, and `init-ledger` for the status ledger.
 6. Review coverage, sequence, scope, gates, and safety.
 
 Output:
@@ -136,7 +136,7 @@ Workflow:
 
 1. Read the full story or spec and relevant project context.
 2. Mark work in progress only if this agent owns status.
-3. Implement in task order. Use Build Worker assignments only for one ready story or scoped change.
+3. Implement in task order. Delegate to **Devin (Build Engineer)** — `develop-story` — only for one ready story or scoped change.
 4. Keep changes scoped to the story.
 5. Update implementation notes, file list, validation history, and change log where the local methodology expects it.
 6. Run story-specific tests first, then broader validations when feasible.
@@ -156,7 +156,7 @@ Review layers:
 - Human checkpoint: walkthrough for high-risk or ambiguous changes.
 - QA generation: tests for materially missing coverage.
 
-Use Review Auditor assignments for each delegated layer. Keep review prompts independent from builder reasoning unless the selected mode requires story or context access.
+Delegate each layer to its specialist: **Reva (Review Auditor)** for the correctness layers (`review-diff`, `acceptance-audit`, `edge-case-review`), **Quinn (Test Architect)** for `risk-profile`, `nfr-assess`, `trace-requirements`, and the advisory `qa-gate`, and **Sam (Security Reviewer)** for `threat-model` and `sink-scan` on any security boundary. Keep review prompts independent from builder reasoning unless the selected mode requires story or context access.
 
 Classify findings:
 
@@ -179,11 +179,11 @@ Validation evidence should include:
 - relevant output summary
 - follow-up action for failures
 
-Prefer targeted story checks before broad suite checks. Use Validation Runner assignments for delegated validation evidence. Treat skipped validation as residual risk unless the user explicitly accepts it.
+Prefer targeted story checks before broad suite checks. Delegate to **Val (Validation Runner)** — `run-validations` and `capture-evidence`. Treat skipped validation as residual risk unless the user explicitly accepts it.
 
 ### Release
 
-Use release to ship a validated change to a target environment or hand it off for deploy. Required for high-risk work; small low-risk changes may fold release into validate and learn.
+Use release to ship a validated change to a target environment or hand it off for deploy. Required for high-risk work; small low-risk changes may fold release into validate and learn. Delegate to **Rex (Release Manager)** — `plan-release`, `rollback-plan`, `signoff-check`, and `post-release-check`.
 
 Preconditions:
 
@@ -243,7 +243,7 @@ Workflow:
 2. Review what changed, what passed, what failed, and what required human decisions.
 3. For incident scope, run the gate-escape analysis from the Incident and Rollback loop and treat every escaped gate as a required, owned follow-up — not an optional note.
 4. Update only authoritative docs.
-5. Convert lessons into concrete follow-up actions. Use Learning Scribe assignments for delegated retrospective or doc-sync work.
+5. Convert lessons into concrete follow-up actions. Delegate to **Lena (Learning Scribe)** — `retro`, `gate-escape-analysis` for incidents, and `doc-sync`.
 6. Route each follow-up to discovery, design, plan, build, review, validate, or release. Prefer changing a gate, invariant, or guard test over adding a one-off reminder, so the lesson is enforced on future runs rather than remembered.
 
 Memory rules:

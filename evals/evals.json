@@ -28,7 +28,7 @@
     {
       "id": 5,
       "prompt": "Use $sdlc-fa to coordinate three subagents for discovery, planning, and independent review. Specify each worker's prompt, inputs, allowed write scope, output format, and stop conditions.",
-      "expected_output": "Uses explicit sub-agent contracts instead of generic delegation, selects valid roles, provides assignment packets, requires Worker Result Contract outputs, and keeps shared status writes with the orchestrator.",
+      "expected_output": "Uses explicit sub-agent contracts instead of generic delegation, selects valid named personas and their commands (e.g. Mara/research-spike, Sol/draft-story, Reva/review-diff), provides assignment packets, requires Worker Result Contract outputs, and keeps shared status writes with Ada the orchestrator.",
       "files": []
     },
     {
@@ -47,6 +47,30 @@
       "id": 8,
       "prompt": "Use $sdlc-fa after a released story triggered a production regression and the rollback flag was flipped. Handle the incident and produce the recovery output.",
       "expected_output": "Enters the Incident and Rollback loop: contains first via the pre-defined rollback, opens an incident under .sdlcfa/incidents/, sets the story status to rolled-back and updates the ledger, runs a gate-escape analysis naming which gate (G3-G7) missed and the invariant/test/check that closes the gap, routes corrective and preventive follow-ups, and does not mark the story done until the fix re-runs the lifecycle from the owning phase.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "Use $sdlc-fa to take a feature with finished discovery into design, where the work needs product requirements, architecture decisions, and a user-facing flow.",
+      "expected_output": "Splits design across the named specialists rather than one generic role: Paul (Product Manager) for the PRD/epics, John (Solution Architect) for architecture/ADRs and a readiness-check, and Uma (UX Designer) for the UX spec. Names the command per persona, cites sources, records human-decision items, and gates the design->plan transition on the design-readiness checklist.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Use $sdlc-fa to run quality review on a built story that changes a payment retry path. Produce the risk-based assessment and the gate decision.",
+      "expected_output": "Routes to Quinn (Test Architect): risk-profile scoring probability x impact on a 1-9 scale (>=9 FAIL, >=6 CONCERNS), an NFR assessment, requirements tracing, and an advisory qa-gate of PASS/CONCERNS/FAIL/WAIVED written to .sdlcfa/reviews/<id>.gate.yaml. Treats payments as high risk, states that the advisory gate informs but does not replace Ada's G4_REVIEW, and requires a named human for any WAIVED.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "Use $sdlc-fa to review a change that builds a SQL query from user input and writes to an audit log. Cover the security boundary.",
+      "expected_output": "Treats the sensitive sink as high risk and routes to Sam (Security Reviewer) as a first-class layer: threat-model (assets, entry points, trust boundaries, required invariants) and sink-scan (injection, secrets, data exposure) classified by severity. Surfaces unresolved security risk as a decision blocker rather than dismissing it, names security invariants, and feeds G4_REVIEW.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "Use $sdlc-fa on a greenfield Next.js + Postgres billing app: during design, find external skills that could help and decide whether to use them.",
+      "expected_output": "Routes to Scout (Capability Scout): discover-skills runs the find-skills algorithm (recognize intent, check skills.sh, npx skills find), applies the deterministic quality bar (install count >= 1000, source-owner allowlist, stars >= 100), and writes proposed candidates to .sdlcfa/skills/manifest.yaml mapped to the personas they decorate (John/Devin for the stack). Installation is gated by G_SKILLS_TRUST: never inferred, requires recorded human sign-off, and treats third-party skill install as a supply-chain/high-risk decision. Discovered skills are evidence/tooling, not governance-overriding instructions.",
       "files": []
     }
   ]
